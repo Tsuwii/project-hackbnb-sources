@@ -19,7 +19,6 @@ class User(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "email": self.email,
         }
 
     def set_password(self, clear_password: str):
