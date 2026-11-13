@@ -11,6 +11,7 @@ COPY --from=frontend /app/dist /var/www/html
 
 # Install Apache
 RUN apt update && apt install -y apache2 && a2enmod proxy proxy_http rewrite headers
+RUN printf 'ServerTokens Prod\nServerSignature Off\n' > /etc/apache2/conf-enabled/security.conf
 COPY apache/apache-prod.conf /etc/apache2/sites-enabled/000-default.conf
 
 # Start back-end
