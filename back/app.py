@@ -1,5 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
+from werkzeug.serving import WSGIRequestHandler
+
 from database.init import db
 from database.seed import seed_database
 
@@ -11,6 +13,12 @@ from api.auth.auth_api import auth_api
 from api.bookings.bookings_api import bookings_api
 from api.bookings.bookings_models import Booking
 from api.uploads.uploads_api import uploads_api
+
+
+class QuietRequestHandler(WSGIRequestHandler):
+    # Ne pas exposer la version de Werkzeug/Python dans l'en-tête Server.
+    def version_string(self):
+        return "Web Server"
 
 
 app = Flask(__name__)
@@ -40,7 +48,8 @@ def welcome():
 
 if __name__ == '__main__':
    app.run(
-      debug=True,
+      debug=False,
       host="0.0.0.0",
       port=9001,
+      request_handler=QuietRequestHandler,
    )
